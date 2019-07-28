@@ -206,6 +206,33 @@ inline constexpr void for_each(Func&& f, named_tuple<Types...> const& in) {
        int{})...};
 }
 
+template <class Func, class... Types>
+inline constexpr void for_each(Func&& f, named_tuple<Types...>& in) {
+  using swallow = int[];
+  (void)swallow{
+          int{},
+          (f(__ntuple_tag_spec_t<Types>{}, get<__ntuple_tag_spec_t<Types>>(in)),
+                  int{})...};
+}
+
+template <class Func, class... Types>
+inline constexpr void for_each(Func&& f, named_tuple<Types...> const& in1, named_tuple<Types...> const& in2) {
+    using swallow = int[];
+    (void)swallow{
+            int{},
+            (f(__ntuple_tag_spec_t<Types>{}, get<__ntuple_tag_spec_t<Types>>(in1), get<__ntuple_tag_spec_t<Types>>(in2)),
+                    int{})...};
+}
+
+template <class Func, class... Types>
+inline constexpr void for_each(Func&& f, named_tuple<Types...>& in1, named_tuple<Types...>& in2) {
+  using swallow = int[];
+  (void)swallow{
+          int{},
+          (f(__ntuple_tag_spec_t<Types>{}, get<__ntuple_tag_spec_t<Types>>(in1), get<__ntuple_tag_spec_t<Types>>(in2)),
+                  int{})...};
+}
+
 // apply : should be replaceable by std::experimental::apply
 
 template <class Func, class... Types>
